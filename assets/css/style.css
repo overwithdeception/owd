@@ -1,0 +1,695 @@
+/*
+  Table of Contents
+  -----------------
+  1. Root Variables & Global Styles
+  2. Utility Classes (Buttons, etc.)
+  3. Header & Navigation
+  4. Hero Section & Handwritten Font
+  5. Content Sections (Shared Styles)
+  6. Component Styles (Bio, Tour, Media, Contact)
+  7. Footer
+  8. Responsive Design (Mobile First)
+*/
+
+/* 1. Root Variables & Global Styles */
+:root {
+  --color-primary: #8a2be2; /* BlueViolet */
+  --color-primary-dark: #9400d3; /* DarkViolet */
+  --color-accent: #ba55d3; /* MediumOrchid */
+  --color-text: #ffffff;
+  --color-text-data-day: #000000;
+  --color-background: #000000;
+  --color-surface: #1a1a1a; /* For cards, forms, etc. */
+  --color-border: #9e22eb;
+
+  --font-primary: "Poppins", sans-serif;
+  --font-headings: "Oswald", sans-serif;
+  --font-handwritten: "Caveat", cursive;
+  --header-height: 70px;
+}
+
+/* Global Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding-top: var(
+    --header-height
+  ); /* Prevent content from hiding behind fixed header */
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 2. Utility Classes */
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  padding: 8px 12px;
+  font-size: 0.9em;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-dark);
+}
+.btn-disabled {
+  background-color: #4a4a4a;
+  color: #999;
+  cursor: not-allowed;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* 3. Header & Navigation */
+.main-header {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: 0 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--color-border);
+  height: var(--header-height);
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-logo img {
+  width: 80px; /* Adjusted size for better balance */
+  height: auto;
+  display: block;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+}
+
+.nav-menu li {
+  margin-left: 25px;
+}
+
+.nav-menu a {
+  color: var(--color-text);
+  font-weight: bold;
+  transition: color 0.3s ease;
+  text-decoration: none; /* Add this line */
+}
+
+.nav-menu a:hover {
+  color: var(--color-primary);
+}
+
+/* Mobile nav will be handled in the responsive section */
+.nav-toggle {
+  display: none;
+}
+
+/* 4. Hero Section */
+.hero-section {
+  /* Change is here -> url('../images/OWDpicture.png') */
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("../image/OWDpicture.png") no-repeat center center/cover;
+
+  height: calc(100vh - var(--header-height));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--color-text);
+  padding: 0 1rem;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: center; /* Centers children horizontally */
+}
+
+.hero-content .hero-title {
+  font-family: var(--font-headings);
+  font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font size */
+  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero-content .hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  margin-bottom: 1.5rem;
+}
+.handwritten {
+  font-family: var(--font-handwritten);
+  font-size: 1.8rem; /* Optional: adjust size */
+  color: var(--accent-color); /* Optional: highlight */
+}
+
+/* 5. Content Sections (Shared) */
+.content-section {
+  padding: 60px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.section-title {
+  font-family: var(--font-headings);
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+/********************************************************
+  Hero Album Carousel
+*********************************************************/
+.hero-album-carousel {
+  /* This container MUST have a defined height for vertical scroll to work */
+  height: 50px;
+  width: 100%;
+  max-width: 300px; /* Constrain width for a cleaner look */
+  margin: 5rem auto 0; /* Add space above the carousel */
+  overflow: hidden; /* Essential for containing the slides */
+}
+
+/* This is the individual slide content */
+.album-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.album-art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px; /* Softly rounded corners */
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.album-name {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.social-links i.fa-facebook {
+  font-size: 1.4rem; /* Slightly smaller than the default 1.5rem */
+}
+
+.social-links {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.social-links a {
+  color: var(--color-text);
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+  transform: scale(1.2);
+}
+
+/* 6. Component Styles */
+
+/* Bio */
+.bio-content-wrapper {
+  display: flex;
+  align-items: center; /* Vertically aligns the text with the center of the image */
+  gap: 40px; /* Creates space between the image and the text */
+}
+.bio-image-col {
+  flex: 1; /* Assigns 1 part of the available space */
+  max-width: 350px;
+}
+.bio-text-col {
+  flex: 2; /* Assigns 2 parts of the available space, making it wider */
+}
+.bio-section .band-photo {
+  width: 100%; /* The image will fill its column */
+  height: auto;
+}
+.bio-section p {
+  text-align: left; /* Aligns the bio text to the left */
+}
+
+/***************************************************************** Tour *****************************************************************/
+.tour-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Creates two equal-width columns */
+  gap: 40px; /* Defines the space between the two columns */
+}
+
+.tour-column h3 {
+  font-family: var(--font-headings);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: var(--color-accent);
+}
+
+.tour-table-container {
+  max-height: 530px;
+  overflow-y: auto;
+  overflow-x: auto; /* For responsive tables */
+}
+
+/* --- Optional: Style the scrollbar for a cleaner look --- */
+/* This works in Chrome, Edge, Safari */
+.tour-table-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.tour-table-container::-webkit-scrollbar-track {
+  background: #2a2a2a; /* Color of the track */
+  border-radius: 4px;
+}
+
+.tour-table-container::-webkit-scrollbar-thumb {
+  background-color: var(
+    --color-primary
+  ); /* Use your theme color for the handle */
+  border-radius: 4px; /* Rounded handle */
+  border: 2px solid #2a2a2a; /* Creates a nice padding effect */
+}
+
+.tour-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../image/owdTour.png") no-repeat center center;
+  background-size: contain; /* Keeps image size proportional */
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* Allows image to scroll with content */
+  padding: 160px 10px;
+}
+
+.tour-section table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  table-layout: fixed;
+}
+.tour-section th,
+.tour-section td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.8rem;
+}
+.tour-section th {
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+}
+.tour-section td:nth-child(2), /* Targets the Venue column */
+.tour-section td:nth-child(3) {
+  /* Targets the Location column */
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* Legacy fallback */
+}
+.date-icon {
+  position: relative;
+  display: inline-flex; /* Use inline-flex to center the icon */
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  color: var(--color-accent); /* Color of the calendar icon itself */
+  font-size: 3rem; /* Size of the calendar icon */
+}
+.date-icon::before {
+  content: attr(data-month); /* Gets the value from data-month attribute */
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-headings); /* Use your heading font */
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-background);
+}
+.date-icon::after {
+  content: attr(data-day); /* Gets the value from data-day attribute */
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-headings);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-data-day);
+  margin-top: 3px;
+}
+
+.section-title-tour {
+  font-family: var(--font-headings);
+  text-align: center;
+  margin-top: -100px;
+  margin-bottom: 100px;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/**********************************************************************************************************************************
+  Media Carousel (Swiper.js)
+***********************************************************************************************************************************/
+
+/* The main swiper container can be used for positioning controls */
+.media-carousel {
+  position: relative;
+  padding: 20px 39px 50px;
+  padding-bottom: 60px;
+  overflow: hidden;
+}
+
+/* Style the navigation arrows */
+.media-carousel .swiper-button-next,
+.media-carousel .swiper-button-prev {
+  color: var(--color-primary); /* Use your theme color! */
+  transition: transform 0.2s ease;
+}
+.media-carousel .swiper-button-next:hover,
+.media-carousel .swiper-button-prev:hover {
+  transform: scale(1.1); /* Slightly enlarge arrows on hover */
+}
+
+/* Style the pagination dots */
+.media-carousel .swiper-pagination-bullet {
+  background-color: var(--color-text); /* White inactive dot */
+  opacity: 1;
+  transition: background-color 0.2s ease;
+}
+
+.media-carousel .swiper-pagination-bullet-active {
+  background-color: var(--color-primary); /* BlueViolet active dot */
+  opacity: 1;
+}
+
+.media-carousel .swiper-pagination {
+  position: absolute;
+  bottom: 10px; /* Pushes the dots lower */
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* The swiper-slide acts as a flexible container */
+.swiper-slide {
+  height: auto; /* Let Swiper handle height */
+}
+
+/* The Card Container (it's now inside a swiper-slide) */
+.media-card {
+  background-color: var(--color-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  height: 100%; /* Make card fill the slide's height */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add a hover effect for the slide itself */
+.swiper-slide:hover .media-card {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
+}
+
+/* The Image and Video Area */
+.card-media img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  object-position: center 20%;
+}
+
+/* The Text Content Area */
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-description {
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  color: #ccc;
+  font-size: 0.75rem; /* Slightly smaller font for card text */
+}
+
+.card-button {
+  width: 100%;
+}
+
+/*************************************************************** Contact *******************************************************************/
+.contact-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 2em;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.contact-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #cccccc;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: var(--color-text);
+  font-family: var(--font-primary);
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* 7. Footer */
+.main-footer {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* --- ADD THIS NEW OVERLAY STYLING --- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 998; /* Just below the nav menu */
+
+  /* Start hidden */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 8. Responsive Design (Mobile First) */
+@media (max-width: 667px) {
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    /* ANCHOR TO THE RIGHT, NOT THE LEFT */
+    right: 0;
+    /* DEFINE A WIDTH, NOT 100% */
+    width: 75%;
+    max-width: 300px; /* Optional: set a max width */
+    height: calc(100vh - var(--header-height));
+    background-color: var(--color-surface);
+    flex-direction: column;
+    /* JUSTIFY CONTENT TO THE TOP, NOT CENTER */
+    justify-content: flex-start;
+    padding-top: 2rem; /* Add some space at the top */
+    /* ALIGN ITEMS TO THE START (LEFT), NOT CENTER */
+    align-items: flex-start;
+    transform: translateX(100%); /* Still slides from off-screen right */
+    transition: transform 0.3s ease-in-out;
+    /* Set z-index to be on top of the overlay */
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    transform: translateX(0);
+  }
+
+  .nav-menu li {
+    width: 100%; /* Make list items take full width of the menu */
+  }
+
+  /* Adjust the link padding for a cleaner, left-aligned look */
+  .nav-menu a {
+    display: block;
+    width: 100%;
+    padding: 1rem 2rem;
+  }
+
+  .nav-toggle {
+    display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001; /* Above the nav menu */
+  }
+
+  .hamburger {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-text);
+    position: relative;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-text);
+    left: 0;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hamburger::before {
+    top: -8px;
+  }
+  .hamburger::after {
+    bottom: -8px;
+  }
+
+  /* Hamburger animation for active state */
+  .nav-toggle.active .hamburger {
+    background-color: transparent;
+  }
+  .nav-toggle.active .hamburger::before {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+  .nav-toggle.active .hamburger::after {
+    transform: rotate(-45deg) translate(5px, -6px);
+  }
+
+  /* Section Titles */
+  .section-title {
+    font-size: 2rem; /* Make titles smaller on mobile */
+  }
+
+  /* Bio Section */
+  .bio-content-wrapper {
+    flex-direction: column; /* Stacks the columns vertically */
+    gap: 30px;
+  }
+  .bio-section .band-photo {
+    max-width: 250px; /* Give the photo a max-width */
+    margin: 0 auto; /* Center the photo */
+  }
+
+  .bio-section p {
+    text-align: center; /* Center the bio text */
+  }
+  /* Tour Dates Section */
+  .tour-layout {
+    grid-template-columns: 1fr; /* Stacks the grid into a single column */
+    gap: 60px; /* Adjusts the space between the stacked sections */
+  }
+
+  .tour-section th,
+  .tour-section td {
+    font-size: 0.5rem; /* Slightly smaller font for readability on mobile */
+    padding: 12px 5px; /* Adjust padding for smaller screens */
+  }
+
+  .date-icon {
+    transform: scale(0.7); /* Make the date icon a bit smaller */
+  }
+  /* Media Carousel Section */
+  .media-carousel {
+    /* Reduce side padding to give more space to the cards */
+    padding: 20px 15px 50px;
+    padding-bottom: 80px;
+  }
+
+  .card-description {
+    font-size: 0.85rem; /* Slightly increase font size for mobile readability */
+  }
+
+  /* Contact Form */
+  .contact-form {
+    padding: 1.5em; /* Reduce padding on smaller screens */
+  }
+}
