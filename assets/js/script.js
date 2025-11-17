@@ -107,3 +107,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // You can add more initializations for other scripts or carousels here in the future!
 });
+
+// --- 3. Initialize Spinning CD Rotator ---
+document.addEventListener("DOMContentLoaded", function () {
+  const cdElement = document.getElementById("spinning-cd");
+
+  // --- IMPORTANT: ADD YOUR IMAGE PATHS HERE ---
+  const images = [
+    "assets/image/PleaseLang.jpg", // Example: Your band logo
+    "assets/image/puzzled.jpg",
+    "assets/image/AyokoNa.jpg",
+    "assets/image/BreakNaTayo.jpg",
+  ];
+
+  // Make sure we don't run this code if the CD element doesn't exist
+  if (cdElement && images.length > 0) {
+    let currentImageIndex = 0;
+
+    // Function to change the background image
+    function changeImage() {
+      // Move to the next image in the array
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+
+      // Update the background image of the CD
+      cdElement.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+    }
+
+    // Set the very first image immediately on load
+    cdElement.style.backgroundImage = `url('${images[0]}')`;
+
+    // Set an interval to call the changeImage function every 4 seconds
+    // 4000 milliseconds = 4 seconds. You can change this value.
+    setInterval(changeImage, 10000);
+  }
+});

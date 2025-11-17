@@ -103,6 +103,10 @@ body {
 
 /* 3. Header & Navigation */
 .main-header {
+  /* ADD these two properties */
+  position: relative;
+  overflow: hidden;
+
   background-color: var(--color-surface);
   color: var(--color-text);
   padding: 0 1rem;
@@ -114,6 +118,46 @@ body {
   border-bottom: 1px solid var(--color-border);
   height: var(--header-height);
 }
+
+/* --- Header Background Video --- */
+#header-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -30%); /* This centers the video */
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1; /* This is the key! It places the video BEHIND other content */
+  opacity: 0.2; /* Adjust this value (from 0.0 to 1.0) to your liking */
+  object-fit: cover; /* Ensures the video covers the area without distortion */
+}
+
+/* --- Header Gradient Overlays for Readability --- */
+.main-header::before,
+.main-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 25%; /* Adjust the width of the gradient fade */
+  z-index: 0; /* Places it ON TOP of the video, but BELOW the nav */
+  pointer-events: none; /* Makes sure you can still click links underneath */
+}
+
+/* Gradient from Left to Right (for the logo) 
+.main-header::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
+  z-index: -2;
+}*/
+
+/* Gradient from Right to Left (for the navigation menu) */
+/*.main-header::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.7), transparent);
+}*/
 
 .main-nav {
   display: flex;
@@ -155,9 +199,12 @@ body {
 
 /* 4. Hero Section */
 .hero-section {
-  /* Change is here -> url('../images/OWDpicture.png') */
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url("../image/OWDpicture.png") no-repeat center center/cover;
+  /* ADD these two lines */
+  position: relative;
+  overflow: hidden;
+
+  /* MODIFIED: We've removed the image URL from this line */
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
 
   height: calc(100vh - var(--header-height));
   display: flex;
@@ -166,6 +213,35 @@ body {
   text-align: center;
   color: var(--color-text);
   padding: 0 1rem;
+}
+
+/* --- Animation: Background Slow Zoom --- */
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1); /* Zoom in by 10% */
+  }
+}
+
+/* This pseudo-element holds and animates our background image */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../image/OWDpicture.png") no-repeat center center/cover;
+  z-index: -1; /* This places the image behind your hero content */
+
+  /* Animation properties */
+  animation-name: slowZoom;
+  animation-duration: 20s; /* How long the zoom takes */
+  animation-iteration-count: infinite; /* Loop forever */
+  animation-direction: alternate; /* Zoom in, then zoom out */
+  animation-timing-function: ease-in-out; /* Smooth start and end */
 }
 
 .hero-content {
@@ -214,7 +290,7 @@ body {
   height: 50px;
   width: 100%;
   max-width: 300px; /* Constrain width for a cleaner look */
-  margin: 5rem auto 0; /* Add space above the carousel */
+  margin: 0.5rem auto 0; /* Add space above the carousel */
   overflow: hidden; /* Essential for containing the slides */
 }
 
@@ -261,6 +337,105 @@ body {
 .social-links a:hover {
   color: var(--color-accent);
   transform: scale(1.2);
+}
+
+/* --- Animation: Fade-in and Slide-up --- */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Start 20px below final position */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Apply Animation to Hero Content --- */
+
+/* We will apply the animation to each child element with a slight delay */
+.hero-title,
+.hero-subtitle,
+.hero-section .btn,
+.hero-section .social-links {
+  animation: fadeInSlideUp 1s ease-out forwards;
+  opacity: 0; /* Start as invisible */
+}
+
+/* Add delays to stagger the animation */
+.hero-subtitle {
+  animation-delay: 0.2s;
+}
+
+.hero-section .btn {
+  animation-delay: 0.4s;
+}
+
+.hero-section .social-links {
+  animation-delay: 0.6s;
+}
+
+/* --- 5. Spinning CD Rotator --- */
+
+/* Keyframes for the spinning animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Container to position the CD at the bottom */
+.spinning-cd-container {
+  position: absolute;
+  bottom: -100px; /* This pushes half of the 250px CD out of view */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px; /* The diameter of our CD */
+  height: 200px;
+  z-index: 10; /* Make sure it's above the background but can be below other content */
+}
+
+/* The CD element itself */
+#spinning-cd {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* Makes it a perfect circle */
+  background-color: #9e22eb; /* Fallback color */
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #ac39f3; /* A subtle outer rim */
+  box-shadow: 0 0 20px rgba(216, 122, 122, 0.5); /* Gives it some depth */
+
+  /* Apply the animation */
+  animation: spin 10s linear infinite; /* 10s per rotation, linear speed, loops forever */
+
+  /* This is needed for the center hole */
+  position: relative;
+
+  /* Smooth transition for when the background image changes */
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* Creating the center hole of the CD */
+#spinning-cd::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px; /* Size of the hole */
+  height: 50px;
+  background: radial-gradient(
+    circle,
+    #222 60%,
+    #444 80%
+  ); /* Shiny gradient for the hole */
+  border-radius: 50%;
+  border: 2px solid #ac39f3;
+  box-shadow: inset 0 0 10px rgba(216, 122, 122, 0.5); /* Inner shadow for depth */
 }
 
 /* 6. Component Styles */
